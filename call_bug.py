@@ -2,7 +2,11 @@ import requests
 import pandas as pd
 from bs4 import BeautifulSoup
 import discord
-async def call_bug(channel):
+async def call_bug(ctx):
+    # 以下皆捨棄
+    '''
+    channel_id = ctx.channel.id
+    channel = ctx.guild.get_channel(channel_id)
     # from tabulate import tabulate
     url = "https://disp.cc/b/"
     web = requests.get('https://disp.cc/b/Joke')
@@ -31,4 +35,5 @@ async def call_bug(channel):
     # 將 DataFrame 轉換為文字格式
     table_str = df.to_string(index=False)
     # 在 Discord 頻道中發送 DataFrame 文字
-    await channel.send("```\n" + table_str + "\n```")
+    await ctx.send("```\n" + table_str + "\n```")
+    '''
