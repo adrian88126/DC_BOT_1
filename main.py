@@ -50,7 +50,7 @@ async def on_message(message):
     await handle_message(message)  # 呼叫外部程式的訊息處理函式
 async def ping(ctx):
     print("bot.latency")
-    await ctx.send(bot.latency)
+    await ctx.send(f'{bot.latency * 100}(ms)')
 # 創建 ConfigParser 對象並讀取配置文件
 config = configparser.ConfigParser()
 config.read('config.ini')
