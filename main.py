@@ -2,6 +2,7 @@ import discord
 import os
 from discord.ext import commands
 import configparser
+from call_bug import call_bug
 from handle_message import handle_message
 from member_handler import handle_member_join, handle_member_remove
 # 初始化 channel_id 變數
@@ -36,6 +37,15 @@ async def shutdown(ctx):
     print("收到關閉指令")
     await ctx.send("關閉機器人...")
     await bot.close()
+@bot.command()
+async def ping(ctx):
+    latency = bot.latency * 100
+    print(f"Bot latency: {latency}ms")
+    await ctx.send(f"Bot latency: {latency}ms")
+@bot.command()
+async def call_bug(ctx):
+    channel = ctx.channel
+    await call_bug(channel)
 @bot.event
 async def on_member_join(member):
     channel = member.guild.get_channel(channel_id)  # 獲取指定的頻道
@@ -44,13 +54,9 @@ async def on_member_join(member):
 async def on_member_remove(member):
     channel = member.guild.get_channel(channel_id)  # 獲取指定的頻道
     await handle_member_remove(member, channel)  # 呼叫外部程式的成員退出處理函式並傳遞頻道參數
-@bot.command()
 @bot.event
 async def on_message(message):
     await handle_message(message)  # 呼叫外部程式的訊息處理函式
-async def ping(ctx):
-    print("bot.latency")
-    await ctx.send(f'{bot.latency * 100}(ms)')
 # 創建 ConfigParser 對象並讀取配置文件
 config = configparser.ConfigParser()
 config.read('config.ini')
