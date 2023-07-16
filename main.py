@@ -27,9 +27,9 @@ async def on_ready():
     if channel:
         await channel.send(">> bot online")
         print('目前登入身份：', bot.user)
-        game = discord.Game('Im py robot')
+        # game = discord.Game('Im py robot')
         # discord.Status.<狀態>，可以是online,offline,idle,dnd,invisible
-        await bot.change_presence(status=discord.Status.online, activity=game)
+        # await bot.change_presence(status=discord.Status.online, activity=game)
     else:
         print(f"找不到 ID 為 {channel_id} 的頻道")
 @bot.command()  # 添加關閉機器人的指令
@@ -39,9 +39,10 @@ async def shutdown(ctx):
     await bot.close()
 @bot.command()
 async def ping(ctx):
+    print("ping")
     latency = bot.latency * 100
-    print(f"Bot latency: {latency}ms")
-    await ctx.send(f"Bot latency: {latency}ms")
+    print(f"Bot latency: {latency:.2f}ms")
+    await ctx.send(f"Bot latency: {latency:.2f}ms")
 @bot.command()
 async def call_bug(ctx):
     channel = ctx.channel
@@ -56,6 +57,7 @@ async def on_member_remove(member):
     await handle_member_remove(member, channel)  # 呼叫外部程式的成員退出處理函式並傳遞頻道參數
 @bot.event
 async def on_message(message):
+    await bot.process_commands(message)  # on_message 事件会拦截所有消息，不打這段會無法打[指令
     await handle_message(message)  # 呼叫外部程式的訊息處理函式
 # 創建 ConfigParser 對象並讀取配置文件
 config = configparser.ConfigParser()
